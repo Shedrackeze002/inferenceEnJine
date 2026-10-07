@@ -188,10 +188,10 @@
           <span class="badge claude">Built on the Claude API</span>
           <span class="badge">Open models on your own hardware</span>
         </div>
-        <h1>An internal AI layer for your org, running on <span class="gradient">Claude and your own metal</span></h1>
-        <p>inferenceEnJine turns your company's documents, tools, and workflows into one internal system. Claude handles the reasoning. Open models handle the high-volume work on hardware you already own. Every answer cites your own sources.</p>
-        <p>Built for ops, finance, and support teams that process documents and repeat the same judgment calls every day.</p>
-        <p>You own the code, the weights, and the keys. API spend goes only where a frontier model earns its cost.</p>
+        <h1>An internal AI layer for your org, on <span class="gradient">Claude and your own hardware</span></h1>
+        <p>inferenceEnJine connects your documents, tools, and workflows in one internal system. Claude gives the reasoning. Open models do the high-volume work on your hardware. Every answer cites your sources.</p>
+        <p>Built for operations, finance, and support teams. These teams process documents and repeat the same judgment calls every day.</p>
+        <p>You own the code, the weights, and the keys. You pay for the API only where a frontier model is necessary.</p>
         <div class="hero-cta">
           <a href="https://mail.google.com/mail/?view=cm&fs=1&to=founder@inferenceenjine.dev&su=inferenceEnJine:%20internal%20AI%20layer" target="_blank" class="btn">Start a conversation</a>
           <a href="#product" class="btn btn-ghost">See the product</a>
@@ -203,30 +203,30 @@
     <section id="product">
       <div class="container">
         <h2>One deployment, four working layers</h2>
-        <p class="section-sub">Each layer ships running on your infrastructure, with evals and a runbook. Nothing waits in a proposal deck.</p>
+        <p class="section-sub">Each layer runs on your infrastructure when we deliver it. Every layer has evaluations and a runbook.</p>
         <div class="service-grid">
 
           <div class="card">
             <h3>Knowledge layer</h3>
-            <p>Your contracts, wikis, tickets, and reports become a queryable index on infrastructure you control. Claude reads the retrieved context and answers with citations back to your sources. Accuracy is measured on questions your own team writes, before anyone relies on the system.</p>
+            <p>Your contracts, wikis, tickets, and reports become an index you can query. The index runs on your infrastructure. Claude reads the retrieved context and answers with citations to your sources. Accuracy is measured with questions your team writes, before anyone trusts the system.</p>
             <div class="tags"><span>Retrieval</span><span class="claude-tag">Claude API</span><span>Built-in evals</span></div>
           </div>
 
           <div class="card">
             <h3>Automation layer</h3>
-            <p>Workflows in n8n move work between the tools your team already runs: pulling records, applying rules, writing outputs, and alerting a named human when a check fails. Claude handles the steps that need reading and judgment. Deterministic gates, retries, and audit trails handle everything else.</p>
+            <p>Workflows in n8n move work between the tools your team runs. One workflow can pull records, apply rules, write outputs, and alert a named person when a check fails. Claude does the steps that need reading and judgment. Deterministic gates, retries, and audit trails do the rest.</p>
             <div class="tags"><span>n8n</span><span class="claude-tag">Claude for judgment steps</span><span>Audit trails</span></div>
           </div>
 
           <div class="card">
             <h3>Model layer</h3>
-            <p>High-volume, well-understood tasks get open models fine-tuned on your data: LoRA and QLoRA on single consumer GPUs. Hard reasoning stays on Claude. An eval harness routes each task to the layer that handles it at the accuracy you require, so the routing is a measured decision.</p>
+            <p>Open models, fine-tuned on your data, do the high-volume tasks with known steps. Training uses LoRA and QLoRA on one consumer GPU. Hard reasoning stays on Claude. An evaluation harness routes each task to the correct layer. The routing decision uses measured accuracy.</p>
             <div class="tags"><span>LoRA / QLoRA</span><span class="claude-tag">Claude for hard reasoning</span><span>Eval harnesses</span></div>
           </div>
 
           <div class="card">
             <h3>Cost layer</h3>
-            <p>The audit writes your cost math before the build: which tasks need a frontier model, and which run cheaper on quantized open models (int8, 4-bit) hosted on machines you already own, including Apple Silicon. The target is exact API spend on reasoning and self-hosted serving for the rest.</p>
+            <p>The audit gives your cost numbers before the build starts. Some tasks need a frontier model. Other tasks run cheaper on quantized open models (int8, 4-bit) on machines you own, including Apple Silicon. The goal: minimum API spend on reasoning, and self-hosted serving for all other work.</p>
             <div class="tags"><span>int8 / 4-bit</span><span>Self-hosted serving</span><span>Apple Silicon &amp; Metal</span></div>
           </div>
 
@@ -245,15 +245,15 @@
             <ul class="claude-list">
               <li>
                 <b>Reasoning engine in the knowledge layer</b>
-                <span>Claude reads retrieved context, follows multi-step instructions, and answers with grounded citations from your index.</span>
+                <span>Claude reads the retrieved context and answers with citations from your index.</span>
               </li>
               <li>
                 <b>Judgment steps in the automation layer</b>
-                <span>Document parsing, request classification, and drafting updates between systems run as Claude API calls inside the workflow.</span>
+                <span>Document parsing, request classification, and drafting run as Claude API calls in the workflow.</span>
               </li>
               <li>
                 <b>Agent tooling for setup and QA</b>
-                <span>The same Claude-powered agents that build a deployment also verify it: harness design, eval runs, and pre-launch checks.</span>
+                <span>The Claude agents that build a deployment also verify it. The verification includes harness design, evaluation runs, and pre-launch checks.</span>
               </li>
             </ul>
           </div>
@@ -277,39 +277,39 @@
     <section id="deployment">
       <div class="container">
         <h2>How a deployment runs</h2>
-        <p class="section-sub">Fixed-scope engagements of 4 to 8 weeks. Weekly checkpoints, and every checkpoint leaves a working increment behind.</p>
+        <p class="section-sub">Every engagement has a fixed scope of 4 to 8 weeks. Every checkpoint leaves a working system.</p>
         <div class="steps">
 
           <div class="card step">
             <span class="week">Week 1</span>
             <h3>Audit</h3>
-            <p>A map of your documents, tools, and current spend, then a one-page plan: the architecture, the hardware, the cost math, and the routing between Claude and self-hosted models. You approve the math before any build starts.</p>
+            <p>In the audit, I map your documents, tools, and current spend. Then I write a one-page plan with the architecture, the hardware, the cost math, and the model routing. You approve the math before the build starts.</p>
           </div>
 
           <div class="card step">
             <span class="week">Weeks 2 to 6</span>
             <h3>Deploy</h3>
-            <p>The system grows in code you can read while it is being written: pipelines, indexes, eval harnesses, deploy scripts.</p>
+            <p>I build the system in code you can read. The build includes pipelines, indexes, evaluation harnesses, and deploy scripts.</p>
             <ul>
               <li>Weekly checkpoint with a running system</li>
               <li>Evals measured on your data, not toy data</li>
-              <li>Stop at any checkpoint, keep everything so far</li>
+              <li>You can stop at any checkpoint and keep the work.</li>
             </ul>
           </div>
 
           <div class="card step">
             <span class="week">Final week</span>
             <h3>Handover</h3>
-            <p>Documentation, runbooks, and training for whoever operates it.</p>
+            <p>I write the documentation and runbooks. I train the person who operates the system.</p>
             <ul>
               <li>You own the code, the weights, and the keys</li>
-              <li>No per-seat license, no lock-in</li>
-              <li>Operating cost written down before you pay it</li>
+              <li>No per-seat licenses and no lock-in.</li>
+              <li>You see the operating cost before you pay it.</li>
             </ul>
           </div>
 
         </div>
-        <p class="engagement-note">Remote by default. Timezone CAT (UTC+2): overlap with EU mornings and US East afternoons. On-site available for African and EU cities by arrangement.</p>
+        <p class="engagement-note">I work remotely by default. My timezone is CAT (UTC+2). It overlaps with EU mornings and US East afternoons. On-site work is available in African and EU cities on request.</p>
       </div>
     </section>
 
@@ -317,12 +317,12 @@
     <section id="proof">
       <div class="container">
         <h2>Proof, not claims</h2>
-        <p class="section-sub">Three tracks of prior work. The numbers are measured and the artifacts are publicly inspectable.</p>
+        <p class="section-sub">Three tracks of prior work. The numbers are measured. You can inspect the artifacts.</p>
         <div class="service-grid">
 
           <div class="card">
             <h3>Native inference engines</h3>
-            <p>Built from-scratch C + Metal inference engines on Apple Silicon, bypassing PyTorch entirely. On a 48 GB Mac, int8 quantization cut resident model memory from 36.4 GB to 25.9 GB, and 4-bit reached about 19 GB, moving decode speed from 23 to 37 tokens per second. Memory headroom becomes a deployment decision you can make with numbers.</p>
+            <p>I built C + Metal inference engines on Apple Silicon. The engines do not use PyTorch. On a 48 GB Mac, int8 quantization cut model memory from 36.4 GB to 25.9 GB. 4-bit quantization cut it to about 19 GB. Decode speed went from 23 to 37 tokens per second. These numbers turn memory limits into a planned decision.</p>
             <div class="metric-row">
               <span class="metric">36.4 → 25.9 GB (int8)</span>
               <span class="metric">~19 GB (4-bit)</span>
@@ -333,7 +333,7 @@
 
           <div class="card">
             <h3>Fine-tuning under constraint</h3>
-            <p>Fine-tuned open vision and language models under hard memory limits: gradient checkpointing, mixed precision, and batching choices that keep training alive on a single consumer GPU. A BERT fine-tune ships as a public demo at 90.7% accuracy. The same discipline an internal model gets: measured accuracy, on memory you can afford.</p>
+            <p>I fine-tuned open vision and language models under hard memory limits. The training used gradient checkpointing, mixed precision, and batch choices. It ran on one consumer GPU. A BERT fine-tune runs as a public demo with 90.7% accuracy. An internal model gets the same treatment: measured accuracy on memory you can afford.</p>
             <div class="metric-row">
               <span class="metric">90.7% BERT accuracy</span>
               <span class="metric">consumer-GPU training</span>
@@ -343,7 +343,7 @@
 
           <div class="card">
             <h3>Production automation</h3>
-            <p>A 50-node workflow in production: financial reconciliation across an accounting system, a Postgres mirror, and a payments API, verified to within a cent every month. It runs on schedule, checks itself before writing, and emails a named human when it fails. Client-named details stay out of this page by design; references available on request.</p>
+            <p>A 50-node workflow runs in production. It reconciles finances across an accounting system, a Postgres mirror, and a payments API. The results match to a cent every month. The workflow runs on schedule. It checks its data before it writes. It emails a named person when a step fails. Client names do not appear on this page. References are available on request.</p>
             <div class="metric-row">
               <span class="metric">50 nodes in production</span>
               <span class="metric">verified to $0.01</span>
@@ -359,7 +359,7 @@
     <section id="contact" class="contact">
       <div class="container">
         <h2>Get in touch</h2>
-        <p>The first conversation is free. Describe your stack and the process you want to run internally, and you get an honest read on whether this helps before anyone commits to anything.</p>
+        <p>The first conversation is free. Tell me about your stack and the process you want to set up. You get a clear answer on if this service helps you, before you decide anything.</p>
         <div class="contact-links">
           <a href="https://mail.google.com/mail/?view=cm&fs=1&to=founder@inferenceenjine.dev&su=inferenceEnJine:%20internal%20AI%20layer" target="_blank" class="btn">Email founder@inferenceenjine.dev</a>
           <a href="mailto:founder@inferenceenjine.dev?subject=inferenceEnJine:%20internal%20AI%20layer" class="btn btn-ghost">Open in mail app</a>
