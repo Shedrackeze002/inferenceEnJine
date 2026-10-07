@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>inferenceEnJine: Internal AI Models, Set Up For Your Org</title>
+  <meta name="description" content="inferenceEnJine sets up internal AI models for organisations: RAG over your own documents, workflow automation, fine-tuning, and inference cost optimization. Deployed on hardware you control, handed over with evals and runbooks.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="canonical" href="https://shedrackeze002.github.io/inferenceEnJine/">
+  <!-- Social preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="inferenceEnJine: Internal AI Models, Set Up For Your Org">
+  <meta property="og:description" content="RAG over your own documents, workflow automation, fine-tuning, and cost optimization. Deployed on hardware you control, handed over with evals and runbooks.">
+  <meta property="og:image" content="https://shedrackeze002.github.io/favicon.png">
+  <meta property="og:url" content="https://shedrackeze002.github.io/inferenceEnJine/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="inferenceEnJine: Internal AI Models, Set Up For Your Org">
+  <meta name="twitter:description" content="RAG, workflow automation, fine-tuning, cost optimization. Your hardware, your weights, your keys.">
+  <meta name="twitter:image" content="https://shedrackeze002.github.io/favicon.png">
+  <style>
+    :root {
+      --bg: #0b1120;
+      --bg-soft: #111a2e;
+      --card: #16213a;
+      --border: #24324f;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-2: #8b5cf6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+    .logo { font-weight: 700; font-size: 1.2rem; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--muted); font-size: 0.95rem; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .btn {
+      display: inline-block; background: var(--accent); color: #fff !important;
+      padding: 8px 18px; border-radius: 8px; font-weight: 500; font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #2563eb; text-decoration: none; }
+    .btn-ghost {
+      background: var(--bg-soft); border: 1px solid var(--border); color: var(--text) !important;
+    }
+    .btn-ghost:hover { background: var(--card); }
+    .menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+    .mobile-menu { display: none; flex-direction: column; gap: 12px; padding: 12px 0 20px; }
+    .mobile-menu a { color: var(--muted); }
+    .mobile-menu.open { display: flex; }
+
+    /* Hero */
+    .hero { padding: 96px 0 64px; text-align: center; }
+    .hero h1 { font-size: 2.75rem; font-weight: 700; margin-bottom: 16px; line-height: 1.2; }
+    .gradient { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { color: var(--muted); font-size: 1.15rem; max-width: 680px; margin: 0 auto 16px; }
+    .hero-cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 28px; }
+
+    /* Sections */
+    section { padding: 72px 0; }
+    section:nth-of-type(even) { background: var(--bg-soft); }
+    h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 8px; }
+    .section-sub { color: var(--muted); margin-bottom: 40px; max-width: 640px; }
+
+    /* Service cards */
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 24px; transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.3); }
+    .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 0.92rem; margin-bottom: 16px; }
+    .card p:last-child { margin-bottom: 0; }
+    .card .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .card .tags span { font-size: 0.75rem; color: var(--accent); background: rgba(59,130,246,0.12); padding: 3px 10px; border-radius: 999px; }
+
+    /* Engagement steps */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; perspective: 1000px; }
+    .step h3 { font-size: 1.1rem; margin-bottom: 8px; }
+    .step p { color: var(--muted); font-size: 0.92rem; margin-bottom: 12px; }
+    .step ul { list-style: none; }
+    .step ul li { color: var(--muted); font-size: 0.9rem; padding-left: 22px; position: relative; margin-bottom: 6px; }
+    .step ul li::before { content: "→"; color: var(--accent); position: absolute; left: 0; }
+    .step .week { display: inline-block; font-size: 0.75rem; color: var(--accent); background: rgba(59,130,246,0.12); padding: 3px 10px; border-radius: 999px; margin-bottom: 12px; }
+    .engagement-note { margin-top: 24px; color: var(--muted); font-size: 0.9rem; }
+
+    /* Proof */
+    .metric-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .metric {
+      font-size: 0.8rem; color: var(--text); background: rgba(139,92,246,0.10);
+      border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px;
+    }
+    .proof-link { font-size: 0.85rem; }
+
+    /* Contact */
+    .contact { text-align: center; }
+    .contact p { color: var(--muted); max-width: 560px; margin: 0 auto 32px; }
+    .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .contact-alt { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 24px 0; text-align: center; color: var(--muted); font-size: 0.85rem; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .menu-btn { display: block; }
+      .hero h1 { font-size: 2rem; }
+      .hero { padding: 64px 0 40px; }
+      section { padding: 56px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a href="#" class="logo">inferenceEnJine</a>
+        <nav class="nav-links">
+          <a href="#services">Services</a>
+          <a href="#engagement">How it works</a>
+          <a href="#proof">Proof</a>
+          <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:" class="btn">Get in touch</a>
+        </nav>
+        <button class="menu-btn" id="menu-btn" aria-label="Menu">☰</button>
+      </div>
+      <div class="mobile-menu" id="mobile-menu">
+        <a href="#services">Services</a>
+        <a href="#engagement">How it works</a>
+        <a href="#proof">Proof</a>
+        <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:" class="btn">Get in touch</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <h1>Your own AI models, on <span class="gradient">your own hardware</span></h1>
+        <p>inferenceEnJine sets up internal models for your organisation: question answering over your own documents, workflow automation between the tools you already run, fine-tuned open models, and inference that costs less.</p>
+        <p>No per-seat licenses. No metered API dependency. You own the code, the weights, and the keys when I leave.</p>
+        <div class="hero-cta">
+          <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:%20internal%20model%20setup" class="btn">Start a conversation</a>
+          <a href="#services" class="btn btn-ghost">What I do</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services">
+      <div class="container">
+        <h2>Services</h2>
+        <p class="section-sub">Four lines of work. Every one ships as a running system on your infrastructure, with evals and documentation, not a proposal deck.</p>
+        <div class="service-grid">
+
+          <div class="card">
+            <h3>RAG over your documents</h3>
+            <p>A retrieval system that answers questions from your company's knowledge: contracts, wikis, tickets, reports. I pick the embedding and chunking approach for your data, index it on hardware you control, wire in a query interface, and hand you eval numbers measured on questions your own team writes.</p>
+            <div class="tags"><span>Retrieval</span><span>Open models</span><span>Built-in evals</span></div>
+          </div>
+
+          <div class="card">
+            <h3>Workflow automation</h3>
+            <p>Pipelines in n8n that move work between the tools your team already uses: pulling records, applying business rules, writing outputs, and alerting a human when a check fails. Gates, retries, and audit trails are part of every build, so the pipeline verifies itself before anything runs live.</p>
+            <div class="tags"><span>n8n</span><span>APIs &amp; Sheets</span><span>Audit trails</span></div>
+          </div>
+
+          <div class="card">
+            <h3>Fine-tuning &amp; evals</h3>
+            <p>When prompting stops being enough, I fine-tune open models on your data: LoRA and QLoRA on single consumer GPUs, larger runs only when the job requires them. Every build ships with an eval set, so the deploy decision rests on accuracy measured on your tasks, not on a demo effect.</p>
+            <div class="tags"><span>LoRA / QLoRA</span><span>Transformers</span><span>Eval harnesses</span></div>
+          </div>
+
+          <div class="card">
+            <h3>Run models for less</h3>
+            <p>I match precision to your quality bar: int8 where it costs nothing perceptible, 4-bit where the memory win is worth it, GPU offload where you are mostly CPU-bound. The target hardware is often the machine you already own: Apple Silicon runs these workloads well, and the box is already paid for.</p>
+            <div class="tags"><span>int8 / 4-bit</span><span>Metal &amp; MPS</span><span>Self-hosted serving</span></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="engagement">
+      <div class="container">
+        <h2>How it works</h2>
+        <p class="section-sub">Fixed-scope engagements of 4 to 8 weeks. Weekly checkpoints, and every checkpoint leaves a working increment behind.</p>
+        <div class="steps">
+
+          <div class="card step">
+            <span class="week">Week 1</span>
+            <h3>Audit</h3>
+            <p>I map your documents, tools, and current spend, then write a one-page plan: the architecture, the hardware, the cost math, and what I need from your team. You approve the math before any build starts.</p>
+          </div>
+
+          <div class="card step">
+            <span class="week">Weeks 2 to 6</span>
+            <h3>Build</h3>
+            <p>I build with code you can read while it is being written: pipelines, indexes, eval harnesses, deploy scripts.</p>
+            <ul>
+              <li>Weekly checkpoint with a running system</li>
+              <li>Evals measured on your data, not toy data</li>
+              <li>Stop at any checkpoint, keep everything so far</li>
+            </ul>
+          </div>
+
+          <div class="card step">
+            <span class="week">Final week</span>
+            <h3>Handover</h3>
+            <p>I document the setup, write the runbooks, and train whoever operates it.</p>
+            <ul>
+              <li>You own the code, the weights, and the keys</li>
+              <li>No per-seat license, no metered API dependency</li>
+              <li>Operating cost written down before you pay it</li>
+            </ul>
+          </div>
+
+        </div>
+        <p class="engagement-note">Remote by default. Timezone CAT (UTC+2): overlap with EU mornings and US East afternoons. On-site available for African and EU cities by arrangement.</p>
+      </div>
+    </section>
+
+    <!-- Proof -->
+    <section id="proof">
+      <div class="container">
+        <h2>Proof, not claims</h2>
+        <p class="section-sub">Three tracks of prior work. The numbers are measured and the artifacts are publicly inspectable.</p>
+        <div class="service-grid">
+
+          <div class="card">
+            <h3>Native inference engines</h3>
+            <p>I build C + Metal inference engines from scratch on Apple Silicon, bypassing PyTorch entirely. On a 48 GB Mac, int8 quantization cut resident model memory from 36.4 GB to 25.9 GB, and 4-bit reached about 19 GB, moving decode speed from 23 to 37 tokens per second. Memory headroom is a deployment decision you can make with numbers.</p>
+            <div class="metric-row">
+              <span class="metric">36.4 → 25.9 GB (int8)</span>
+              <span class="metric">~19 GB (4-bit)</span>
+              <span class="metric">23 → 37 tok/s decode</span>
+            </div>
+            <p class="proof-link" style="margin-top:12px;"><a href="https://github.com/Shedrackeze002/h3.c-int8" target="_blank">h3.c-int8 on GitHub →</a></p>
+          </div>
+
+          <div class="card">
+            <h3>Fine-tuning under constraint</h3>
+            <p>Fine-tuned a Vision Transformer past a 0.93 public leaderboard score in a Carnegie Mellon competition, with the whole run fitted inside limited student GPU memory: gradient checkpointing, mixed precision, and batching chosen to keep training alive. Also deployed a BERT model to a public demo at 90.7% accuracy. This is the same discipline your internal model gets: measured accuracy, on memory you can afford.</p>
+            <div class="metric-row">
+              <span class="metric">0.93 leaderboard</span>
+              <span class="metric">90.7% BERT accuracy</span>
+            </div>
+            <p class="proof-link" style="margin-top:12px;"><a href="https://huggingface.co/spaces/shedrackeze/movie-sentiment-analyzer" target="_blank">Live BERT demo →</a></p>
+          </div>
+
+          <div class="card">
+            <h3>Production automation</h3>
+            <p>A 50-node automation pipeline in production: financial reconciliation across an accounting system, a Postgres mirror, and a payments API, verified to within a cent every month. It runs on schedule, checks itself before writing, and emails a named human when it fails. Client-named details stay out of this page by design; references available on request.</p>
+            <div class="metric-row">
+              <span class="metric">50 nodes in production</span>
+              <span class="metric">verified to $0.01</span>
+              <span class="metric">scheduled + self-alerting</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Get in touch</h2>
+        <p>The first conversation is free. Describe your stack and the process you want to run internally, and you get an honest read on whether this helps before anyone commits to anything.</p>
+        <div class="contact-links">
+          <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:%20internal%20model%20setup" class="btn">ezeshedrack002@gmail.com</a>
+          <a href="mailto:seze@andrew.cmu.edu?subject=inferenceEnJine:%20internal%20model%20setup" class="btn btn-ghost">seze@andrew.cmu.edu</a>
+        </div>
+        <p class="contact-alt">Also reachable on <a href="https://github.com/Shedrackeze002" target="_blank">GitHub</a>, <a href="https://linkedin.com/in/eze-shedrack" target="_blank">LinkedIn</a>, and <a href="https://x.com/maphlux" target="_blank">X</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 inferenceEnJine · Shedrack Eze · <a href="https://shedrackeze002.github.io/" target="_blank">Portfolio</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => menu.classList.toggle('open'));
+  </script>
+</body>
+</html>
