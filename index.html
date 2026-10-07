@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>inferenceEnJine: Internal AI Models, Set Up For Your Org</title>
-  <meta name="description" content="inferenceEnJine sets up internal AI models for organisations: RAG over your own documents, workflow automation, fine-tuning, and inference cost optimization. Deployed on hardware you control, handed over with evals and runbooks.">
+  <title>inferenceEnJine: An internal AI layer for your org, on your own hardware</title>
+  <meta name="description" content="inferenceEnJine turns your company's documents, tools, and workflows into one internal AI system. Claude handles reasoning, open models run on hardware you own, and every answer cites your own sources.">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="canonical" href="https://shedrackeze002.github.io/inferenceEnJine/">
   <!-- Social preview -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="inferenceEnJine: Internal AI Models, Set Up For Your Org">
-  <meta property="og:description" content="RAG over your own documents, workflow automation, fine-tuning, and cost optimization. Deployed on hardware you control, handed over with evals and runbooks.">
+  <meta property="og:title" content="inferenceEnJine: An internal AI layer for your org">
+  <meta property="og:description" content="Claude for reasoning, open models on your own hardware. RAG over your documents, workflow automation, fine-tuning, and cost optimization.">
   <meta property="og:image" content="https://shedrackeze002.github.io/favicon.png">
   <meta property="og:url" content="https://shedrackeze002.github.io/inferenceEnJine/">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="inferenceEnJine: Internal AI Models, Set Up For Your Org">
-  <meta name="twitter:description" content="RAG, workflow automation, fine-tuning, cost optimization. Your hardware, your weights, your keys.">
+  <meta name="twitter:title" content="inferenceEnJine: An internal AI layer for your org">
+  <meta name="twitter:description" content="Claude for reasoning, open models on your own hardware. RAG, automation, fine-tuning, cost optimization.">
   <meta name="twitter:image" content="https://shedrackeze002.github.io/favicon.png">
   <style>
     :root {
@@ -28,6 +28,7 @@
       --muted: #94a3b8;
       --accent: #3b82f6;
       --accent-2: #8b5cf6;
+      --claude: #d87757;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -69,19 +70,26 @@
     .mobile-menu.open { display: flex; }
 
     /* Hero */
-    .hero { padding: 96px 0 64px; text-align: center; }
-    .hero h1 { font-size: 2.75rem; font-weight: 700; margin-bottom: 16px; line-height: 1.2; }
+    .hero { padding: 88px 0 64px; text-align: center; }
+    .badge-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+    .badge {
+      font-size: 0.8rem; color: var(--text); font-weight: 500;
+      border: 1px solid var(--border); border-radius: 999px; padding: 5px 14px;
+      background: var(--card);
+    }
+    .badge.claude { border-color: rgba(216,119,87,0.45); background: rgba(216,119,87,0.10); color: var(--claude); }
+    .hero h1 { font-size: 2.6rem; font-weight: 700; margin-bottom: 16px; line-height: 1.2; }
     .gradient { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { color: var(--muted); font-size: 1.15rem; max-width: 680px; margin: 0 auto 16px; }
+    .hero p { color: var(--muted); font-size: 1.12rem; max-width: 700px; margin: 0 auto 16px; }
     .hero-cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 28px; }
 
     /* Sections */
     section { padding: 72px 0; }
     section:nth-of-type(even) { background: var(--bg-soft); }
     h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 8px; }
-    .section-sub { color: var(--muted); margin-bottom: 40px; max-width: 640px; }
+    .section-sub { color: var(--muted); margin-bottom: 40px; max-width: 680px; }
 
-    /* Service cards */
+    /* Cards */
     .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
     .card {
       background: var(--card); border: 1px solid var(--border); border-radius: 12px;
@@ -93,9 +101,25 @@
     .card p:last-child { margin-bottom: 0; }
     .card .tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .card .tags span { font-size: 0.75rem; color: var(--accent); background: rgba(59,130,246,0.12); padding: 3px 10px; border-radius: 999px; }
+    .card .tags span.claude-tag { color: var(--claude); background: rgba(216,119,87,0.12); }
 
-    /* Engagement steps */
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; perspective: 1000px; }
+    /* Built on Claude */
+    .claude-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .claude-list { list-style: none; }
+    .claude-list li { padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .claude-list li:last-child { border-bottom: none; }
+    .claude-list b { color: var(--text); }
+    .claude-list span { display: block; color: var(--muted); font-size: 0.92rem; }
+    .local-pill {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px;
+    }
+    .local-pill h3 { margin-bottom: 12px; }
+    .local-pill ul { list-style: none; }
+    .local-pill ul li { color: var(--muted); font-size: 0.92rem; padding-left: 22px; position: relative; margin-bottom: 8px; }
+    .local-pill ul li::before { content: "→"; color: var(--accent); position: absolute; left: 0; }
+
+    /* Deployment steps */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
     .step h3 { font-size: 1.1rem; margin-bottom: 8px; }
     .step p { color: var(--muted); font-size: 0.92rem; margin-bottom: 12px; }
     .step ul { list-style: none; }
@@ -124,9 +148,10 @@
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .menu-btn { display: block; }
-      .hero h1 { font-size: 2rem; }
-      .hero { padding: 64px 0 40px; }
+      .hero h1 { font-size: 1.9rem; }
+      .hero { padding: 56px 0 40px; }
       section { padding: 56px 0; }
+      .claude-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -137,16 +162,18 @@
       <div class="nav">
         <a href="#" class="logo">inferenceEnJine</a>
         <nav class="nav-links">
-          <a href="#services">Services</a>
-          <a href="#engagement">How it works</a>
+          <a href="#product">Product</a>
+          <a href="#claude">Built on Claude</a>
+          <a href="#deployment">Deployment</a>
           <a href="#proof">Proof</a>
           <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:" class="btn">Get in touch</a>
         </nav>
         <button class="menu-btn" id="menu-btn" aria-label="Menu">☰</button>
       </div>
       <div class="mobile-menu" id="mobile-menu">
-        <a href="#services">Services</a>
-        <a href="#engagement">How it works</a>
+        <a href="#product">Product</a>
+        <a href="#claude">Built on Claude</a>
+        <a href="#deployment">Deployment</a>
         <a href="#proof">Proof</a>
         <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:" class="btn">Get in touch</a>
       </div>
@@ -157,68 +184,112 @@
     <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <h1>Your own AI models, on <span class="gradient">your own hardware</span></h1>
-        <p>inferenceEnJine sets up internal models for your organisation: question answering over your own documents, workflow automation between the tools you already run, fine-tuned open models, and inference that costs less.</p>
-        <p>No per-seat licenses. No metered API dependency. You own the code, the weights, and the keys when I leave.</p>
+        <div class="badge-row">
+          <span class="badge claude">Built on the Claude API</span>
+          <span class="badge">Open models on your own hardware</span>
+        </div>
+        <h1>An internal AI layer for your org, running on <span class="gradient">Claude and your own metal</span></h1>
+        <p>inferenceEnJine turns your company's documents, tools, and workflows into one internal system. Claude handles the reasoning. Open models handle the high-volume work on hardware you already own. Every answer cites your own sources.</p>
+        <p>Built for ops, finance, and support teams that process documents and repeat the same judgment calls every day.</p>
+        <p>You own the code, the weights, and the keys. API spend goes only where a frontier model earns its cost.</p>
         <div class="hero-cta">
-          <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:%20internal%20model%20setup" class="btn">Start a conversation</a>
-          <a href="#services" class="btn btn-ghost">What I do</a>
+          <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:%20internal%20AI%20layer" class="btn">Start a conversation</a>
+          <a href="#product" class="btn btn-ghost">See the product</a>
         </div>
       </div>
     </section>
 
-    <!-- Services -->
-    <section id="services">
+    <!-- Product -->
+    <section id="product">
       <div class="container">
-        <h2>Services</h2>
-        <p class="section-sub">Four lines of work. Every one ships as a running system on your infrastructure, with evals and documentation, not a proposal deck.</p>
+        <h2>One deployment, four working layers</h2>
+        <p class="section-sub">Each layer ships running on your infrastructure, with evals and a runbook. Nothing waits in a proposal deck.</p>
         <div class="service-grid">
 
           <div class="card">
-            <h3>RAG over your documents</h3>
-            <p>A retrieval system that answers questions from your company's knowledge: contracts, wikis, tickets, reports. I pick the embedding and chunking approach for your data, index it on hardware you control, wire in a query interface, and hand you eval numbers measured on questions your own team writes.</p>
-            <div class="tags"><span>Retrieval</span><span>Open models</span><span>Built-in evals</span></div>
+            <h3>Knowledge layer</h3>
+            <p>Your contracts, wikis, tickets, and reports become a queryable index on infrastructure you control. Claude reads the retrieved context and answers with citations back to your sources. Accuracy is measured on questions your own team writes, before anyone relies on the system.</p>
+            <div class="tags"><span>Retrieval</span><span class="claude-tag">Claude API</span><span>Built-in evals</span></div>
           </div>
 
           <div class="card">
-            <h3>Workflow automation</h3>
-            <p>Pipelines in n8n that move work between the tools your team already uses: pulling records, applying business rules, writing outputs, and alerting a human when a check fails. Gates, retries, and audit trails are part of every build, so the pipeline verifies itself before anything runs live.</p>
-            <div class="tags"><span>n8n</span><span>APIs &amp; Sheets</span><span>Audit trails</span></div>
+            <h3>Automation layer</h3>
+            <p>Workflows in n8n move work between the tools your team already runs: pulling records, applying rules, writing outputs, and alerting a named human when a check fails. Claude handles the steps that need reading and judgment. Deterministic gates, retries, and audit trails handle everything else.</p>
+            <div class="tags"><span>n8n</span><span class="claude-tag">Claude for judgment steps</span><span>Audit trails</span></div>
           </div>
 
           <div class="card">
-            <h3>Fine-tuning &amp; evals</h3>
-            <p>When prompting stops being enough, I fine-tune open models on your data: LoRA and QLoRA on single consumer GPUs, larger runs only when the job requires them. Every build ships with an eval set, so the deploy decision rests on accuracy measured on your tasks, not on a demo effect.</p>
-            <div class="tags"><span>LoRA / QLoRA</span><span>Transformers</span><span>Eval harnesses</span></div>
+            <h3>Model layer</h3>
+            <p>High-volume, well-understood tasks get open models fine-tuned on your data: LoRA and QLoRA on single consumer GPUs. Hard reasoning stays on Claude. An eval harness routes each task to the layer that handles it at the accuracy you require, so the routing is a measured decision.</p>
+            <div class="tags"><span>LoRA / QLoRA</span><span class="claude-tag">Claude for hard reasoning</span><span>Eval harnesses</span></div>
           </div>
 
           <div class="card">
-            <h3>Run models for less</h3>
-            <p>I match precision to your quality bar: int8 where it costs nothing perceptible, 4-bit where the memory win is worth it, GPU offload where you are mostly CPU-bound. The target hardware is often the machine you already own: Apple Silicon runs these workloads well, and the box is already paid for.</p>
-            <div class="tags"><span>int8 / 4-bit</span><span>Metal &amp; MPS</span><span>Self-hosted serving</span></div>
+            <h3>Cost layer</h3>
+            <p>The audit writes your cost math before the build: which tasks need a frontier model, and which run cheaper on quantized open models (int8, 4-bit) hosted on machines you already own, including Apple Silicon. The target is exact API spend on reasoning and self-hosted serving for the rest.</p>
+            <div class="tags"><span>int8 / 4-bit</span><span>Self-hosted serving</span><span>Apple Silicon &amp; Metal</span></div>
           </div>
 
         </div>
       </div>
     </section>
 
-    <!-- How it works -->
-    <section id="engagement">
+    <!-- Built on Claude -->
+    <section id="claude">
       <div class="container">
-        <h2>How it works</h2>
+        <h2>Built on Claude</h2>
+        <p class="section-sub">What Claude does in every deployment, and what stays on your hardware.</p>
+        <div class="claude-grid">
+
+          <div>
+            <ul class="claude-list">
+              <li>
+                <b>Reasoning engine in the knowledge layer</b>
+                <span>Claude reads retrieved context, follows multi-step instructions, and answers with grounded citations from your index.</span>
+              </li>
+              <li>
+                <b>Judgment steps in the automation layer</b>
+                <span>Document parsing, request classification, and drafting updates between systems run as Claude API calls inside the workflow.</span>
+              </li>
+              <li>
+                <b>Agent tooling for setup and QA</b>
+                <span>The same Claude-powered agents that build a deployment also verify it: harness design, eval runs, and pre-launch checks.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="local-pill">
+            <h3>What stays on your hardware</h3>
+            <ul>
+              <li>Document ingestion and chunking</li>
+              <li>Embeddings and the retrieval index</li>
+              <li>Quantized open models (int8 / 4-bit) for high-volume tasks</li>
+              <li>The serving layer, behind your network</li>
+            </ul>
+            <p style="margin-top:12px; color: var(--muted); font-size: 0.9rem;">Your documents stay inside your deployment. Raw data never leaves it.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Deployment -->
+    <section id="deployment">
+      <div class="container">
+        <h2>How a deployment runs</h2>
         <p class="section-sub">Fixed-scope engagements of 4 to 8 weeks. Weekly checkpoints, and every checkpoint leaves a working increment behind.</p>
         <div class="steps">
 
           <div class="card step">
             <span class="week">Week 1</span>
             <h3>Audit</h3>
-            <p>I map your documents, tools, and current spend, then write a one-page plan: the architecture, the hardware, the cost math, and what I need from your team. You approve the math before any build starts.</p>
+            <p>A map of your documents, tools, and current spend, then a one-page plan: the architecture, the hardware, the cost math, and the routing between Claude and self-hosted models. You approve the math before any build starts.</p>
           </div>
 
           <div class="card step">
             <span class="week">Weeks 2 to 6</span>
-            <h3>Build</h3>
-            <p>I build with code you can read while it is being written: pipelines, indexes, eval harnesses, deploy scripts.</p>
+            <h3>Deploy</h3>
+            <p>The system grows in code you can read while it is being written: pipelines, indexes, eval harnesses, deploy scripts.</p>
             <ul>
               <li>Weekly checkpoint with a running system</li>
               <li>Evals measured on your data, not toy data</li>
@@ -229,10 +300,10 @@
           <div class="card step">
             <span class="week">Final week</span>
             <h3>Handover</h3>
-            <p>I document the setup, write the runbooks, and train whoever operates it.</p>
+            <p>Documentation, runbooks, and training for whoever operates it.</p>
             <ul>
               <li>You own the code, the weights, and the keys</li>
-              <li>No per-seat license, no metered API dependency</li>
+              <li>No per-seat license, no lock-in</li>
               <li>Operating cost written down before you pay it</li>
             </ul>
           </div>
@@ -251,7 +322,7 @@
 
           <div class="card">
             <h3>Native inference engines</h3>
-            <p>I build C + Metal inference engines from scratch on Apple Silicon, bypassing PyTorch entirely. On a 48 GB Mac, int8 quantization cut resident model memory from 36.4 GB to 25.9 GB, and 4-bit reached about 19 GB, moving decode speed from 23 to 37 tokens per second. Memory headroom is a deployment decision you can make with numbers.</p>
+            <p>Built from-scratch C + Metal inference engines on Apple Silicon, bypassing PyTorch entirely. On a 48 GB Mac, int8 quantization cut resident model memory from 36.4 GB to 25.9 GB, and 4-bit reached about 19 GB, moving decode speed from 23 to 37 tokens per second. Memory headroom becomes a deployment decision you can make with numbers.</p>
             <div class="metric-row">
               <span class="metric">36.4 → 25.9 GB (int8)</span>
               <span class="metric">~19 GB (4-bit)</span>
@@ -262,17 +333,17 @@
 
           <div class="card">
             <h3>Fine-tuning under constraint</h3>
-            <p>Fine-tuned a Vision Transformer past a 0.93 public leaderboard score in a Carnegie Mellon competition, with the whole run fitted inside limited student GPU memory: gradient checkpointing, mixed precision, and batching chosen to keep training alive. Also deployed a BERT model to a public demo at 90.7% accuracy. This is the same discipline your internal model gets: measured accuracy, on memory you can afford.</p>
+            <p>Fine-tuned open vision and language models under hard memory limits: gradient checkpointing, mixed precision, and batching choices that keep training alive on a single consumer GPU. A BERT fine-tune ships as a public demo at 90.7% accuracy. The same discipline an internal model gets: measured accuracy, on memory you can afford.</p>
             <div class="metric-row">
-              <span class="metric">0.93 leaderboard</span>
               <span class="metric">90.7% BERT accuracy</span>
+              <span class="metric">consumer-GPU training</span>
             </div>
             <p class="proof-link" style="margin-top:12px;"><a href="https://huggingface.co/spaces/shedrackeze/movie-sentiment-analyzer" target="_blank">Live BERT demo →</a></p>
           </div>
 
           <div class="card">
             <h3>Production automation</h3>
-            <p>A 50-node automation pipeline in production: financial reconciliation across an accounting system, a Postgres mirror, and a payments API, verified to within a cent every month. It runs on schedule, checks itself before writing, and emails a named human when it fails. Client-named details stay out of this page by design; references available on request.</p>
+            <p>A 50-node workflow in production: financial reconciliation across an accounting system, a Postgres mirror, and a payments API, verified to within a cent every month. It runs on schedule, checks itself before writing, and emails a named human when it fails. Client-named details stay out of this page by design; references available on request.</p>
             <div class="metric-row">
               <span class="metric">50 nodes in production</span>
               <span class="metric">verified to $0.01</span>
@@ -290,8 +361,7 @@
         <h2>Get in touch</h2>
         <p>The first conversation is free. Describe your stack and the process you want to run internally, and you get an honest read on whether this helps before anyone commits to anything.</p>
         <div class="contact-links">
-          <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:%20internal%20model%20setup" class="btn">ezeshedrack002@gmail.com</a>
-          <a href="mailto:seze@andrew.cmu.edu?subject=inferenceEnJine:%20internal%20model%20setup" class="btn btn-ghost">seze@andrew.cmu.edu</a>
+          <a href="mailto:ezeshedrack002@gmail.com?subject=inferenceEnJine:%20internal%20AI%20layer" class="btn">ezeshedrack002@gmail.com</a>
         </div>
         <p class="contact-alt">Also reachable on <a href="https://github.com/Shedrackeze002" target="_blank">GitHub</a>, <a href="https://linkedin.com/in/eze-shedrack" target="_blank">LinkedIn</a>, and <a href="https://x.com/maphlux" target="_blank">X</a>.</p>
       </div>
@@ -300,7 +370,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; 2026 inferenceEnJine · Shedrack Eze · <a href="https://shedrackeze002.github.io/" target="_blank">Portfolio</a></p>
+      <p>&copy; 2026 inferenceEnJine · Built on Claude API and open-source models · <a href="https://shedrackeze002.github.io/" target="_blank">Portfolio</a></p>
     </div>
   </footer>
 
